@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# list buckets
+
+aws s3api list-buckets --query "Buckets[].Name" --output text
+if [ $? -ne 0 ]; then
+    echo "Failed to list S3 buckets"
+    exit 1
+fi

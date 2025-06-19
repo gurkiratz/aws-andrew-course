@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# check if an argument is provided
+if [ -z "$1" ]; then
+    echo "There needs to be a bucket name"
+    exit 1
+fi  
+
+# delete objects using s3api delete-objects
+
+OBJECTS=$(aws s3api list-objects-v2 --bucket "$1" --query "Contents[].{Key: Key}" --output json)
+DELETE_JSON="{\"Objects\": $OBJECTS, \"Quiet\": true}"
+
+aws s3api delete-objects --bucket "$1" --delete "$DELETE_JSON"
+
+if [ $? -ne 0 ]; then
+    echo "Failed to delete objects from S3 bucket $1"
+    exit 1
+fi  
+
+echo "Successfully deleted objects from S3 bucket $1"

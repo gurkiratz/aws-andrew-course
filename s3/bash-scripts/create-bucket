@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# check if an argument is provided
+if [ -z "$1" ]; then
+    echo "There needs to be a bucket name"
+    exit 1
+fi
+
+aws s3api create-bucket \
+    --bucket "$1" \
+    --region "$2" \
+    --create-bucket-configuration LocationConstraint="$2"

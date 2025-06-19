@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# check if an argument is provided
+if [ -z "$1" ]; then
+    echo "There needs to be a bucket name"
+    exit 1
+fi  
+
+# list objects in the specified S3 bucket
+aws s3 ls "s3://$1" --recursive
+if [ $? -ne 0 ]; then 
+    echo "Failed to list objects in S3 bucket $1"
+    exit 1
+fi
+echo "Objects successfully listed in S3 bucket $1"
